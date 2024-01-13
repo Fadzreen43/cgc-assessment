@@ -3,11 +3,10 @@ import { DataEntity } from '@/modules/entities/DataEntity';
 
 export const updateData = async (id: number, newData: DataEntity): Promise<void> => {
     try {
-        const response = await fetch(`https://testcasefe2023.ignorelist.com/api/v1/data/${id}`, {
+        const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                'nim': '20210040120', // Ganti dengan NIM Anda yang sebenarnya
             },
             body: JSON.stringify(newData),
         });

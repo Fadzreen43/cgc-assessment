@@ -1,10 +1,10 @@
 
 export const deleteData = async (id: number): Promise<void> => {
     try {
-        const response = await fetch(`https://testcasefe2023.ignorelist.com/api/v1/data/${id}`, {
+        const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
             method: 'DELETE',
             headers: {
-                'nim': '20210040120', // Ganti dengan NIM Anda yang sebenarnya
+                'Content-Type': 'application/json',
             },
         });
 

@@ -10,14 +10,24 @@ import '@/app/globals.css';
 
 const CreateDataPage = () => {
     const router = useRouter();
-    const { id } = router.query;
+    // const { id } = router.query;
+    const { id, data: dataString } = router.query;
+    const [editedData, setEditedData] = useState<DataEntity | null>(null);
+
+
+  const handleLogout = () => {
+    // Clear the token from local storage
+    localStorage.removeItem('token');
+
+    // Redirect to the login page after log-out
+    router.push('/login');
+  };
 
     const [formData, setFormData] = useState<DataEntity>({
         id: 0,
+        userId: 0,
         title: '',
-        description: '',
-        price: 0,
-        author: '',
+        body: '',
     });
     const [loading, setLoading] = useState(false);
     const [openSukses, setOpenSukses] = useState(false);
@@ -26,29 +36,60 @@ const CreateDataPage = () => {
 
     const fetchDataById = async () => {
         try {
-            const result = await getDataById(Number(id));
-            setFormData(result);
+            if (id && dataString) {
+                try {
+                  // Parse the data from the query parameter
+                  const data: DataEntity = JSON.parse(dataString);
+                 console.log('gegege',data)
+                  // Set the initial state with the data to edit
+                  setEditedData(data);
+                } catch (error) {
+                  console.error('Error parsing data:', error);
+                }
+              }
         } catch (error) {
+
         }
 
     }
     const fetchUpdateData = async () => {
         try {
-            await updateData(Number(id), formData);
-            setTimeout(() => {
-                router.push('/');
-            }, 1000);
+            // await updateData(Number(id), formData);
+            // setTimeout(() => {
+            //     router.push('/index');
+            // }, 1000);
+        if (formData) {
+        const storedData: DataEntity[] = JSON.parse(localStorage.getItem('data') || '[]');
+        const updatedData = storedData.map((item) => (item.id === formData.id ? formData : item));
+        localStorage.setItem('data', JSON.stringify(updatedData));
+
+        setTimeout(() => {
+                router.push('/index');
+        }, 1000);
+        
+        }
 
         } catch (error) {
-
+            console.log('Error!!')
         }
 
     }
     useEffect(() => {
-        if (id) {
-            fetchDataById();
-        }
-    }, [id]);
+        // if (id) {
+        //     fetchDataById();
+        // }
+        if (id && dataString) {
+            try {
+              // Parse the data from the query parameter
+              const data: DataEntity = JSON.parse(dataString);
+      console.log('gegerge', data)
+              // Set the initial state with the data to edit
+              setFormData(data);
+            } catch (error) {
+              console.error('Error parsing data:', error);
+            }
+          }
+    }, [id,dataString]);
 
     const handleInputChange = (field: keyof DataEntity, value: string | number) => {
         setFormData((prevData) => ({

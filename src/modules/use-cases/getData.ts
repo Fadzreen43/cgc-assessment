@@ -9,10 +9,10 @@ interface GetDataResult {
 
 export const getData = async (): Promise<GetDataResult> => {
     try {
-        const response = await fetch('https://testcasefe2023.ignorelist.com/api/v1/data/', {
+        const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
             method: 'GET',
             headers: {
-                'nim': '20210040120',
+                'Content-Type': 'application/json',
             },
         });
 

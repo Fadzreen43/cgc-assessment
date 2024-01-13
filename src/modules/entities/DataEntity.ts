@@ -1,9 +1,8 @@
-// src/modules/entities/DataEntity.ts
+
 export interface DataEntity {
     id?: number;
+    userId: number;
     title: string;
-    description: string;
-    price: number;
-    author: string;
+    // price: 0;
+    body: string;
 }
-  
